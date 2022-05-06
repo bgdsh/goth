@@ -6,11 +6,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
 
-	"github.com/markbates/goth"
+	"github.com/bgdsh/goth"
 	"golang.org/x/oauth2"
 )
 
@@ -20,6 +21,9 @@ const endpointProfile string = "https://www.googleapis.com/oauth2/v2/userinfo"
 // You should always call `google.New` to get a new Provider. Never try to create
 // one manually.
 func New(clientKey, secret, callbackURL string, scopes ...string) *Provider {
+	if clientKey == "" || secret == "" {
+		log.Fatal("Google Client Key and Secret is mandatory!")
+	}
 	p := &Provider{
 		ClientKey:    clientKey,
 		Secret:       secret,

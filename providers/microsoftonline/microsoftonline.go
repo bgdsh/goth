@@ -1,5 +1,5 @@
 // Package microsoftonline implements the OAuth2 protocol for authenticating users through microsoftonline.
-// This package can be used as a reference implementation of an OAuth2 provider for Goth.
+// This package can be used as a reference implementation of an OAuth2 provider for goth.
 // To use this package, your application need to be registered in [Application Registration Portal](https://apps.dev.microsoft.com/)
 package microsoftonline
 
@@ -10,8 +10,8 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/bgdsh/goth"
 	"github.com/markbates/going/defaults"
-	"github.com/markbates/goth"
 	"golang.org/x/oauth2"
 )
 

@@ -1,5 +1,5 @@
 // Package salesforce implements the OAuth2 protocol for authenticating users through salesforce.
-// This package can be used as a reference implementation of an OAuth2 provider for Goth.
+// This package can be used as a reference implementation of an OAuth2 provider for goth.
 package salesforce
 
 import (
@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/markbates/goth"
+	"github.com/bgdsh/goth"
 	"golang.org/x/oauth2"
 )
 

@@ -1,5 +1,5 @@
 // Package cloudfoundry implements the OAuth2 protocol for authenticating users through Cloud Foundry.
-// This package can be used as a reference implementation of an OAuth2 provider for Goth.
+// This package can be used as a reference implementation of an OAuth2 provider for goth.
 package cloudfoundry
 
 import (
@@ -12,7 +12,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/markbates/goth"
+	"github.com/bgdsh/goth"
 	"golang.org/x/oauth2"
 )
 

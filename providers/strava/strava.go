@@ -1,17 +1,18 @@
 // Package strava implements the OAuth2 protocol for authenticating users through Strava.
-// This package can be used as a reference implementation of an OAuth2 provider for Goth.
+// This package can be used as a reference implementation of an OAuth2 provider for goth.
 package strava
 
 import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/markbates/goth"
-	"golang.org/x/oauth2"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+
+	"github.com/bgdsh/goth"
+	"golang.org/x/oauth2"
 )
 
 const (

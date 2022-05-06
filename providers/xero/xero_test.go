@@ -3,13 +3,12 @@ package xero
 import (
 	"encoding/json"
 	"fmt"
-	"net/http"
 	"net/http/httptest"
 	"os"
 	"testing"
 
-	"github.com/gorilla/pat"
-	"github.com/markbates/goth"
+	"github.com/bgdsh/goth"
+	"github.com/labstack/echo/v4"
 	"github.com/mrjones/oauth"
 	"github.com/stretchr/testify/assert"
 )
@@ -90,17 +89,20 @@ func xeroProvider() *Provider {
 }
 
 func init() {
-	p := pat.New()
-	p.Get("/oauth/RequestToken", func(res http.ResponseWriter, req *http.Request) {
-		fmt.Fprint(res, "oauth_token=TOKEN&oauth_token_secret=SECRET")
+	e := echo.New()
+	e.GET("/oauth/RequestToken", func(c echo.Context) error {
+		fmt.Fprint(c.Response(), "oauth_token=TOKEN&oauth_token_secret=SECRET")
+		return nil
 	})
-	p.Get("/oauth/Authorize", func(res http.ResponseWriter, req *http.Request) {
-		fmt.Fprint(res, "DO NOT USE THIS ENDPOINT")
+	e.GET("/oauth/Authorize", func(c echo.Context) error {
+		fmt.Fprint(c.Response(), "DO NOT USE THIS ENDPOINT")
+		return nil
 	})
-	p.Get("/oauth/AccessToken", func(res http.ResponseWriter, req *http.Request) {
-		fmt.Fprint(res, "oauth_token=TOKEN&oauth_token_secret=SECRET")
+	e.GET("/oauth/AccessToken", func(c echo.Context) error {
+		fmt.Fprint(c.Response(), "oauth_token=TOKEN&oauth_token_secret=SECRET")
+		return nil
 	})
-	p.Get("/api.xro/2.0/Organisation", func(res http.ResponseWriter, req *http.Request) {
+	e.GET("/api.xro/2.0/Organisation", func(c echo.Context) error {
 		apiResponse := APIResponse{
 			Organisations: []Organisation{
 				{"Vanderlay Industries", "Vanderlay Industries", "COMPANY", "NZ", "111-11"},
@@ -109,13 +111,14 @@ func init() {
 
 		js, err := json.Marshal(apiResponse)
 		if err != nil {
-			fmt.Fprint(res, "Json did not Marshal")
+			fmt.Fprint(c.Response(), "Json did not Marshal")
 		}
 
-		res.Write(js)
+		c.Response().Write(js)
+		return nil
 	})
 
-	ts := httptest.NewServer(p)
+	ts := httptest.NewServer(e)
 
 	requestURL = ts.URL + "/oauth/RequestToken"
 	endpointProfile = ts.URL + "/api.xro/2.0/"

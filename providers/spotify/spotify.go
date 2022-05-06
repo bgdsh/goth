@@ -1,5 +1,5 @@
 // Package spotify implements the OAuth protocol for authenticating users through Spotify.
-// This package can be used as a reference implementation of an OAuth provider for Goth.
+// This package can be used as a reference implementation of an OAuth provider for goth.
 package spotify
 
 import (
@@ -8,7 +8,8 @@ import (
 	"net/http"
 
 	"fmt"
-	"github.com/markbates/goth"
+
+	"github.com/bgdsh/goth"
 	"golang.org/x/oauth2"
 )
 

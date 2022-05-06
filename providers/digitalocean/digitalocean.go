@@ -1,5 +1,5 @@
 // Package digitalocean implements the OAuth2 protocol for authenticating users through Digital Ocean.
-// This package can be used as a reference implementation of an OAuth2 provider for Goth.
+// This package can be used as a reference implementation of an OAuth2 provider for goth.
 package digitalocean
 
 import (
@@ -10,7 +10,8 @@ import (
 	"net/http"
 
 	"fmt"
-	"github.com/markbates/goth"
+
+	"github.com/bgdsh/goth"
 	"golang.org/x/oauth2"
 )
 

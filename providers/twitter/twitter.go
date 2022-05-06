@@ -1,5 +1,5 @@
 // Package twitter implements the OAuth protocol for authenticating users through Twitter.
-// This package can be used as a reference implementation of an OAuth provider for Goth.
+// This package can be used as a reference implementation of an OAuth provider for goth.
 package twitter
 
 import (
@@ -11,7 +11,7 @@ import (
 
 	"fmt"
 
-	"github.com/markbates/goth"
+	"github.com/bgdsh/goth"
 	"github.com/mrjones/oauth"
 	"golang.org/x/oauth2"
 )
@@ -159,7 +159,7 @@ func newConsumer(provider *Provider, authURL string) *oauth.Consumer {
 
 //RefreshToken refresh token is not provided by twitter
 func (p *Provider) RefreshToken(refreshToken string) (*oauth2.Token, error) {
-	return nil, errors.New("Refresh token is not provided by twitter")
+	return nil, errors.New("refresh token is not provided by twitter")
 }
 
 //RefreshTokenAvailable refresh token is not provided by twitter

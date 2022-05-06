@@ -3,8 +3,8 @@ package linkedin_test
 import (
 	"testing"
 
-	"github.com/markbates/goth"
-	"github.com/markbates/goth/providers/linkedin"
+	"github.com/bgdsh/goth"
+	"github.com/bgdsh/goth/providers/linkedin"
 	"github.com/stretchr/testify/assert"
 )
 

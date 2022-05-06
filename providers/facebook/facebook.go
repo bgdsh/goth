@@ -1,5 +1,5 @@
 // Package facebook implements the OAuth2 protocol for authenticating users through Facebook.
-// This package can be used as a reference implementation of an OAuth2 provider for Goth.
+// This package can be used as a reference implementation of an OAuth2 provider for goth.
 package facebook
 
 import (
@@ -16,7 +16,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/markbates/goth"
+	"github.com/bgdsh/goth"
 	"golang.org/x/oauth2"
 )
 
@@ -103,7 +103,7 @@ func (p *Provider) FetchUser(session goth.Session) (goth.User, error) {
 	}
 
 	// always add appsecretProof to make calls more protected
-	// https://github.com/markbates/goth/issues/96
+	// https://github.com/bgdsh/goth/issues/96
 	// https://developers.facebook.com/docs/graph-api/securing-requests
 	hash := hmac.New(sha256.New, []byte(p.Secret))
 	hash.Write([]byte(sess.AccessToken))

@@ -58,7 +58,7 @@ used in your application.
 
 ## Running Login Example
 
-If you want to run the default example in `<goth>/examples`, you have to 
+If you want to run the default example in `<goth>/examples`, you have to
 retrieve the keys described in the previous section and run the example
 as follows:
 

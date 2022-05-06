@@ -1,5 +1,5 @@
 // Package tumblr implements the OAuth protocol for authenticating users through Tumblr.
-// This package can be used as a reference implementation of an OAuth provider for Goth.
+// This package can be used as a reference implementation of an OAuth provider for goth.
 package tumblr
 
 import (
@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/markbates/goth"
+	"github.com/bgdsh/goth"
 	"github.com/mrjones/oauth"
 	"golang.org/x/oauth2"
 )

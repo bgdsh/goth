@@ -1,5 +1,5 @@
 // Package zoom implements the OAuth2 protocol for authenticating users through zoo.
-// This package can be used as a reference implementation of an OAuth2 provider for Goth.
+// This package can be used as a reference implementation of an OAuth2 provider for goth.
 package zoom
 
 import (
@@ -9,9 +9,8 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/bgdsh/goth"
 	"golang.org/x/oauth2"
-
-	"github.com/markbates/goth"
 )
 
 var (

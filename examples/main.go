@@ -3,75 +3,86 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
 	"os"
 	"sort"
+	"time"
 
-	"github.com/gorilla/pat"
-	"github.com/markbates/goth"
-	"github.com/markbates/goth/gothic"
-	"github.com/markbates/goth/providers/amazon"
-	"github.com/markbates/goth/providers/apple"
-	"github.com/markbates/goth/providers/auth0"
-	"github.com/markbates/goth/providers/azuread"
-	"github.com/markbates/goth/providers/battlenet"
-	"github.com/markbates/goth/providers/bitbucket"
-	"github.com/markbates/goth/providers/box"
-	"github.com/markbates/goth/providers/dailymotion"
-	"github.com/markbates/goth/providers/deezer"
-	"github.com/markbates/goth/providers/digitalocean"
-	"github.com/markbates/goth/providers/discord"
-	"github.com/markbates/goth/providers/dropbox"
-	"github.com/markbates/goth/providers/eveonline"
-	"github.com/markbates/goth/providers/facebook"
-	"github.com/markbates/goth/providers/fitbit"
-	"github.com/markbates/goth/providers/gitea"
-	"github.com/markbates/goth/providers/github"
-	"github.com/markbates/goth/providers/gitlab"
-	"github.com/markbates/goth/providers/google"
-	"github.com/markbates/goth/providers/gplus"
-	"github.com/markbates/goth/providers/heroku"
-	"github.com/markbates/goth/providers/instagram"
-	"github.com/markbates/goth/providers/intercom"
-	"github.com/markbates/goth/providers/kakao"
-	"github.com/markbates/goth/providers/lastfm"
-	"github.com/markbates/goth/providers/line"
-	"github.com/markbates/goth/providers/linkedin"
-	"github.com/markbates/goth/providers/mastodon"
-	"github.com/markbates/goth/providers/meetup"
-	"github.com/markbates/goth/providers/microsoftonline"
-	"github.com/markbates/goth/providers/naver"
-	"github.com/markbates/goth/providers/nextcloud"
-	"github.com/markbates/goth/providers/okta"
-	"github.com/markbates/goth/providers/onedrive"
-	"github.com/markbates/goth/providers/openidConnect"
-	"github.com/markbates/goth/providers/paypal"
-	"github.com/markbates/goth/providers/salesforce"
-	"github.com/markbates/goth/providers/seatalk"
-	"github.com/markbates/goth/providers/shopify"
-	"github.com/markbates/goth/providers/slack"
-	"github.com/markbates/goth/providers/soundcloud"
-	"github.com/markbates/goth/providers/spotify"
-	"github.com/markbates/goth/providers/steam"
-	"github.com/markbates/goth/providers/strava"
-	"github.com/markbates/goth/providers/stripe"
-	"github.com/markbates/goth/providers/tiktok"
-	"github.com/markbates/goth/providers/twitch"
-	"github.com/markbates/goth/providers/twitter"
-	"github.com/markbates/goth/providers/typetalk"
-	"github.com/markbates/goth/providers/uber"
-	"github.com/markbates/goth/providers/vk"
-	"github.com/markbates/goth/providers/wecom"
-	"github.com/markbates/goth/providers/wepay"
-	"github.com/markbates/goth/providers/xero"
-	"github.com/markbates/goth/providers/yahoo"
-	"github.com/markbates/goth/providers/yammer"
-	"github.com/markbates/goth/providers/yandex"
-	"github.com/markbates/goth/providers/zoom"
+	"github.com/bgdsh/goth"
+	"github.com/joho/godotenv"
+
+	"github.com/gorilla/sessions"
+	"github.com/labstack/echo-contrib/session"
+	"github.com/labstack/echo/v4"
+
+	"github.com/bgdsh/goth/gothic"
+	"github.com/bgdsh/goth/providers/amazon"
+	"github.com/bgdsh/goth/providers/apple"
+	"github.com/bgdsh/goth/providers/auth0"
+	"github.com/bgdsh/goth/providers/azuread"
+	"github.com/bgdsh/goth/providers/battlenet"
+	"github.com/bgdsh/goth/providers/bitbucket"
+	"github.com/bgdsh/goth/providers/box"
+	"github.com/bgdsh/goth/providers/dailymotion"
+	"github.com/bgdsh/goth/providers/deezer"
+	"github.com/bgdsh/goth/providers/digitalocean"
+	"github.com/bgdsh/goth/providers/discord"
+	"github.com/bgdsh/goth/providers/dropbox"
+	"github.com/bgdsh/goth/providers/eveonline"
+	"github.com/bgdsh/goth/providers/facebook"
+	"github.com/bgdsh/goth/providers/fitbit"
+	"github.com/bgdsh/goth/providers/gitea"
+	"github.com/bgdsh/goth/providers/github"
+	"github.com/bgdsh/goth/providers/gitlab"
+	"github.com/bgdsh/goth/providers/google"
+	"github.com/bgdsh/goth/providers/gplus"
+	"github.com/bgdsh/goth/providers/heroku"
+	"github.com/bgdsh/goth/providers/instagram"
+	"github.com/bgdsh/goth/providers/intercom"
+	"github.com/bgdsh/goth/providers/kakao"
+	"github.com/bgdsh/goth/providers/lastfm"
+	"github.com/bgdsh/goth/providers/line"
+	"github.com/bgdsh/goth/providers/linkedin"
+	"github.com/bgdsh/goth/providers/mastodon"
+	"github.com/bgdsh/goth/providers/meetup"
+	"github.com/bgdsh/goth/providers/microsoftonline"
+	"github.com/bgdsh/goth/providers/naver"
+	"github.com/bgdsh/goth/providers/nextcloud"
+	"github.com/bgdsh/goth/providers/okta"
+	"github.com/bgdsh/goth/providers/onedrive"
+	"github.com/bgdsh/goth/providers/openidConnect"
+	"github.com/bgdsh/goth/providers/paypal"
+	"github.com/bgdsh/goth/providers/salesforce"
+	"github.com/bgdsh/goth/providers/seatalk"
+	"github.com/bgdsh/goth/providers/shopify"
+	"github.com/bgdsh/goth/providers/slack"
+	"github.com/bgdsh/goth/providers/soundcloud"
+	"github.com/bgdsh/goth/providers/spotify"
+	"github.com/bgdsh/goth/providers/steam"
+	"github.com/bgdsh/goth/providers/strava"
+	"github.com/bgdsh/goth/providers/stripe"
+	"github.com/bgdsh/goth/providers/tiktok"
+	"github.com/bgdsh/goth/providers/twitch"
+	"github.com/bgdsh/goth/providers/twitter"
+	"github.com/bgdsh/goth/providers/typetalk"
+	"github.com/bgdsh/goth/providers/uber"
+	"github.com/bgdsh/goth/providers/vk"
+	"github.com/bgdsh/goth/providers/wecom"
+	"github.com/bgdsh/goth/providers/wepay"
+	"github.com/bgdsh/goth/providers/xero"
+	"github.com/bgdsh/goth/providers/yahoo"
+	"github.com/bgdsh/goth/providers/yammer"
+	"github.com/bgdsh/goth/providers/yandex"
+	"github.com/bgdsh/goth/providers/zoom"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Failed to load env")
+	}
 	goth.UseProviders(
 		twitter.New(os.Getenv("TWITTER_KEY"), os.Getenv("TWITTER_SECRET"), "http://localhost:3000/auth/twitter/callback"),
 		// If you'd like to use authenticate instead of authorize in Twitter provider, use this instead.
@@ -218,41 +229,59 @@ func main() {
 
 	providerIndex := &ProviderIndex{Providers: keys, ProvidersMap: m}
 
-	p := pat.New()
-	p.Get("/auth/{provider}/callback", func(res http.ResponseWriter, req *http.Request) {
+	e := echo.New()
+	e.Use(session.Middleware(sessions.NewCookieStore([]byte(os.Getenv("COOKIE_SECRET")))))
+	t := &Template{
+		templates: template.Must(template.ParseGlob("examples/templates/*.html")),
+	}
+	e.Renderer = t
 
-		user, err := gothic.CompleteUserAuth(res, req)
+	e.GET("/auth/:provider/callback", func(c echo.Context) error {
+		user, err := gothic.CompleteUserAuth(c)
 		if err != nil {
-			fmt.Fprintln(res, err)
-			return
+			c.Logger().Error(err)
+			return err
 		}
-		t, _ := template.New("foo").Parse(userTemplate)
-		t.Execute(res, user)
+		cookie := new(http.Cookie)
+		cookie.Name = "access_token"
+		cookie.Value = "your access token"
+		cookie.Path = "/"
+		cookie.Expires = time.Now().Add(time.Hour)
+		c.SetCookie(cookie)
+
+		return c.Render(http.StatusOK, "user", user)
 	})
 
-	p.Get("/logout/{provider}", func(res http.ResponseWriter, req *http.Request) {
-		gothic.Logout(res, req)
-		res.Header().Set("Location", "/")
-		res.WriteHeader(http.StatusTemporaryRedirect)
+	e.GET("/logout/:provider", func(c echo.Context) error {
+		err := gothic.Logout(c)
+		if err != nil {
+			return err
+		}
+		return c.Redirect(http.StatusTemporaryRedirect, "/")
 	})
 
-	p.Get("/auth/{provider}", func(res http.ResponseWriter, req *http.Request) {
+	e.GET("/auth/:provider", func(c echo.Context) error {
 		// try to get the user without re-authenticating
-		if gothUser, err := gothic.CompleteUserAuth(res, req); err == nil {
-			t, _ := template.New("foo").Parse(userTemplate)
-			t.Execute(res, gothUser)
+		if gothUser, err := gothic.CompleteUserAuth(c); err == nil {
+			return c.Render(http.StatusOK, "user", gothUser)
 		} else {
-			gothic.BeginAuthHandler(res, req)
+			return gothic.BeginAuthHandler(c)
 		}
 	})
 
-	p.Get("/", func(res http.ResponseWriter, req *http.Request) {
-		t, _ := template.New("foo").Parse(indexTemplate)
-		t.Execute(res, providerIndex)
+	e.GET("/", func(c echo.Context) error {
+		cookie, err := c.Cookie("access_token")
+		if err != nil {
+			log.Println("failed to get cookie acccess_token", err.Error())
+		} else {
+			// avoid this in prod env
+			fmt.Println("access token is: ", cookie.Value)
+		}
+		return c.Render(http.StatusOK, "index", providerIndex)
 	})
 
 	log.Println("listening on localhost:3000")
-	log.Fatal(http.ListenAndServe(":3000", p))
+	log.Fatal(e.Start(":3000"))
 }
 
 type ProviderIndex struct {
@@ -260,20 +289,10 @@ type ProviderIndex struct {
 	ProvidersMap map[string]string
 }
 
-var indexTemplate = `{{range $key,$value:=.Providers}}
-    <p><a href="/auth/{{$value}}">Log in with {{index $.ProvidersMap $value}}</a></p>
-{{end}}`
+type Template struct {
+	templates *template.Template
+}
 
-var userTemplate = `
-<p><a href="/logout/{{.Provider}}">logout</a></p>
-<p>Name: {{.Name}} [{{.LastName}}, {{.FirstName}}]</p>
-<p>Email: {{.Email}}</p>
-<p>NickName: {{.NickName}}</p>
-<p>Location: {{.Location}}</p>
-<p>AvatarURL: {{.AvatarURL}} <img src="{{.AvatarURL}}"></p>
-<p>Description: {{.Description}}</p>
-<p>UserID: {{.UserID}}</p>
-<p>AccessToken: {{.AccessToken}}</p>
-<p>ExpiresAt: {{.ExpiresAt}}</p>
-<p>RefreshToken: {{.RefreshToken}}</p>
-`
+func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
+	return t.templates.ExecuteTemplate(w, fmt.Sprintf("%s.html", name), data)
+}

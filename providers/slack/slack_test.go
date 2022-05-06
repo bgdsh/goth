@@ -10,8 +10,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/markbates/goth"
-	"github.com/markbates/goth/providers/slack"
+	"github.com/bgdsh/goth"
+	"github.com/bgdsh/goth/providers/slack"
 	"github.com/stretchr/testify/assert"
 )
 

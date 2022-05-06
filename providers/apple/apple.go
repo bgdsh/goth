@@ -1,5 +1,5 @@
 // Package `apple` implements the OAuth2 protocol for authenticating users through Apple.
-// This package can be used as a reference implementation of an OAuth2 provider for Goth.
+// This package can be used as a reference implementation of an OAuth2 provider for goth.
 package apple
 
 import (
@@ -13,8 +13,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/bgdsh/goth"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/markbates/goth"
 	"golang.org/x/oauth2"
 )
 

@@ -1,11 +1,12 @@
 package battlenet_test
 
 import (
-	"github.com/markbates/goth"
-	"github.com/markbates/goth/providers/battlenet"
-	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
+
+	"github.com/bgdsh/goth"
+	"github.com/bgdsh/goth/providers/battlenet"
+	"github.com/stretchr/testify/assert"
 )
 
 func Test_New(t *testing.T) {

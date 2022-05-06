@@ -15,7 +15,7 @@ import (
 
 	"golang.org/x/oauth2"
 
-	"github.com/markbates/goth"
+	"github.com/bgdsh/goth"
 	"github.com/mrjones/oauth"
 )
 
@@ -157,14 +157,14 @@ func (p *Provider) FetchUser(session goth.Session) (goth.User, error) {
 	var apiResponse APIResponse
 	responseBytes, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		return user, fmt.Errorf("Could not read response: %s", err.Error())
+		return user, fmt.Errorf("could not read response: %s", err.Error())
 	}
 	if responseBytes == nil {
-		return user, fmt.Errorf("Received no response: %s", err.Error())
+		return user, fmt.Errorf("received no response: %s", err.Error())
 	}
 	err = json.Unmarshal(responseBytes, &apiResponse)
 	if err != nil {
-		return user, fmt.Errorf("Could not unmarshal response: %s", err.Error())
+		return user, fmt.Errorf("could not unmarshal response: %s", err.Error())
 	}
 
 	user.Name = apiResponse.Organisations[0].Name
@@ -250,7 +250,7 @@ func (p *Provider) RefreshOAuth1Token(session *Session) error {
 //RefreshToken refresh token is not provided by the Xero Public or Private Application -
 //only the Partner Application and you must use RefreshOAuth1Token instead
 func (p *Provider) RefreshToken(refreshToken string) (*oauth2.Token, error) {
-	return nil, errors.New("Refresh token is only provided by Xero for Partner Applications")
+	return nil, errors.New("refresh token is only provided by Xero for Partner Applications")
 }
 
 //RefreshTokenAvailable refresh token is not provided by the Xero Public or Private Application -

@@ -3,14 +3,14 @@ package intercom_test
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/pat"
-	"github.com/markbates/goth"
-	"github.com/markbates/goth/providers/intercom"
-	"github.com/stretchr/testify/assert"
-	"net/http"
 	"net/http/httptest"
 	"os"
 	"testing"
+
+	"github.com/bgdsh/goth"
+	"github.com/bgdsh/goth/providers/intercom"
+	"github.com/labstack/echo/v4"
+	"github.com/stretchr/testify/assert"
 )
 
 type fetchUserPayload struct {
@@ -125,11 +125,12 @@ func Test_FetchUnverifiedUser(t *testing.T) {
 }
 
 func mockIntercomFetchUser(fetchUserPayload *fetchUserPayload, f func(*httptest.Server)) {
-	p := pat.New()
-	p.Get("/me", func(res http.ResponseWriter, req *http.Request) {
-		json.NewEncoder(res).Encode(fetchUserPayload)
+	e := echo.New()
+	e.GET("/me", func(c echo.Context) error {
+		return json.NewEncoder(c.Response()).Encode(fetchUserPayload)
 	})
-	ts := httptest.NewServer(p)
+
+	ts := httptest.NewServer(e.Server.Handler)
 	defer ts.Close()
 
 	originalUserURL := intercom.UserURL

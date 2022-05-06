@@ -1,5 +1,5 @@
 // Package paypal implements the OAuth2 protocol for authenticating users through paypal.
-// This package can be used as a reference implementation of an OAuth2 provider for Goth.
+// This package can be used as a reference implementation of an OAuth2 provider for goth.
 package paypal
 
 import (
@@ -12,7 +12,7 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/markbates/goth"
+	"github.com/bgdsh/goth"
 	"golang.org/x/oauth2"
 )
 

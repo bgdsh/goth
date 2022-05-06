@@ -1,5 +1,5 @@
 // Package mastodon implements the OAuth2 protocol for authenticating users through Mastodon.
-// This package can be used as a reference implementation of an OAuth2 provider for Goth.
+// This package can be used as a reference implementation of an OAuth2 provider for goth.
 package mastodon
 
 import (
@@ -11,7 +11,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/markbates/goth"
+	"github.com/bgdsh/goth"
 	"golang.org/x/oauth2"
 )
 

@@ -1,5 +1,5 @@
 // Package lastfm implements the OAuth protocol for authenticating users through LastFM.
-// This package can be used as a reference impleentation of an OAuth provider for Goth.
+// This package can be used as a reference impleentation of an OAuth provider for goth.
 package lastfm
 
 import (
@@ -13,7 +13,7 @@ import (
 	"net/url"
 	"sort"
 
-	"github.com/markbates/goth"
+	"github.com/bgdsh/goth"
 	"golang.org/x/oauth2"
 )
 

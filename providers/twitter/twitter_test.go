@@ -3,13 +3,12 @@ package twitter
 import (
 	"encoding/json"
 	"fmt"
-	"net/http"
 	"net/http/httptest"
 	"os"
 	"testing"
 
-	"github.com/gorilla/pat"
-	"github.com/markbates/goth"
+	"github.com/bgdsh/goth"
+	"github.com/labstack/echo/v4"
 	"github.com/mrjones/oauth"
 	"github.com/stretchr/testify/assert"
 )
@@ -97,11 +96,12 @@ func twitterProviderAuthenticate() *Provider {
 }
 
 func init() {
-	p := pat.New()
-	p.Get("/oauth/request_token", func(res http.ResponseWriter, req *http.Request) {
-		fmt.Fprint(res, "oauth_token=TOKEN&oauth_token_secret=SECRET")
+	e := echo.New()
+	e.GET("/oauth/request_token", func(c echo.Context) error {
+		fmt.Fprint(c.Response(), "oauth_token=TOKEN&oauth_token_secret=SECRET")
+		return nil
 	})
-	p.Get("/1.1/account/verify_credentials.json", func(res http.ResponseWriter, req *http.Request) {
+	e.GET("/1.1/account/verify_credentials.json", func(c echo.Context) error {
 		data := map[string]string{
 			"name":              "Homer",
 			"screen_name":       "duffman",
@@ -111,9 +111,9 @@ func init() {
 			"location":          "Springfield",
 			"email":             "duffman@springfield.com",
 		}
-		json.NewEncoder(res).Encode(&data)
+		return json.NewEncoder(c.Response()).Encode(&data)
 	})
-	ts := httptest.NewServer(p)
+	ts := httptest.NewServer(e)
 
 	requestURL = ts.URL + "/oauth/request_token"
 	endpointProfile = ts.URL + "/1.1/account/verify_credentials.json"
