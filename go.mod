@@ -7,7 +7,7 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.2.0
 	github.com/gorilla/sessions v1.2.1
 	github.com/jarcoal/httpmock v0.0.0-20180424175123-9c70cfe4a1da
-	github.com/joho/godotenv v1.4.0 // indirect
+	github.com/joho/godotenv v1.4.0
 	github.com/labstack/echo-contrib v0.12.0
 	github.com/labstack/echo/v4 v4.7.2
 	github.com/lestrrat-go/jwx v1.2.21
