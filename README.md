@@ -8,6 +8,10 @@ protocol providers, as long as they implement the `Provider` and `Session` inter
 
 This package was inspired by [https://github.com/intridea/omniauth](https://github.com/intridea/omniauth).
 
+
+** This repo is fork from [github.com/markbates/goth] to support the [Echo](https://echo.labstack.com/) framework **
+
+
 ## Installation
 
 ```text
